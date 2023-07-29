@@ -1,6 +1,24 @@
 import openai
+import gradio
 
-openai.api_key = "..." #stored in original source file
+openai.api_key = "..."
 
-completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Give me 3 ideas for apps I could build with openai apis "}])
-print(completion.choices[0].message.content)
+messages = [{"role": "system", "content": "You are a sweet yet witty boyfriend who politely answers the user's questions"}]
+
+def CustomChatGPT(user_input):
+    messages.append({"role": "user", "content": user_input})
+    response = openai.ChatCompletion.create(
+        model = "gpt-3.5-turbo",
+        messages = messages
+    )
+    ChatGPT_reply = response["choices"][0]["message"]["content"]
+    messages.append({"role": "assistant", "content": ChatGPT_reply})
+    return ChatGPT_reply
+
+demo = gradio.Interface(fn=CustomChatGPT, inputs = "text", outputs = "text", title = "Real Estate Pro")
+
+demo.launch(share=True)
+
+
+
+def 
